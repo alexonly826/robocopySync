@@ -1,0 +1,63 @@
+<project name="CSR" default="help" basedir=".">
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 主要變數，只要修改這些變數即可											 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<property name="sysName"					value="核心放款系統" />
+
+	<import file="../../csr-globals.xml" />
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 次要變數，沒有必要的話不需修改											 -->
+<!-- 可override antweb-properties.xml 下的變數)								 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+   
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 匯入公用的變數及巨集程式												 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<import file="../../csr-properties.xml" />
+	<import file="../../csr-macros.xml" />
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 本系統下各個專案的定義                                                  -->
+<!-- 最後需以 <geneClassPath debug="(false|true)" /> 結束                    -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<EARModule name="CXL${sysCode}"		ear="CXL${sysCode}.ear"
+		build.order="${sysCode}Web"
+		Server="${CSR_server.list},${JMI_server.list}" />
+
+	
+	<WebModule	name="${sysCode}Web"	war="${sysCode}Web.war" commondeploy.server="${IM_server.list},${JIMU_server.list},${AG20_server.list},${JMI_server.list},${B2C_server.list},${B2CU_server.list}">
+		<classpath>
+			<fileset dir="${common.ebafLib}" includes="*.jar" excludes="Common${sysCode}.jar" />
+		</classpath>
+	</WebModule>
+
+	<eBAFConfig name="cxlcs-${syscode}" />
+
+	<geneClassPath verbose="false" />
+
+	<Resource name="JavaBatchScript"                                     
+      prefix="JavaBatchScript"                                         
+      dirname="wasbatch"
+      Server="${JavaBatchServer.list}" />
+  
+	<Resource name="DBBatchScript"                                     
+      prefix="DBBatchScript"                                         
+      dirname="dbbatch"                                              
+      deploy="${output.deploy}/Resource/dbbatch/DB${sysCode}"
+      Server="${DBBatchServer.list}" />
+	  
+	<Resource name="SQL" flatten="true" Server="${sqlServer.list}" />  
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 匯入所需要的 target，以及加入本專案專有的 target						 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<import file="../../csr-targets.xml" />
+
+</project>

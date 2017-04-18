@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project name="CRMMAIL">
+	<syscode>CRMMAIL</syscode>
+	<sysname>資料倉儲mail</sysname>
+	<server type="prod">
+		<property-list>
+			<property name="title">資料倉儲mail</property>
+			<property name="exec">${ant.crm.cmd}</property>
+			<property name="temp">${antspace.crm1}/prod/crmmail/Misc</property>
+			<property name="file">${antspace.crm1}/prod/crmmail/build.xml</property>
+		</property-list>
+		<deploy name="SendCounterBank" type="JavaModule">
+			<property name="head">SendCounterBank - JavaModule( java )</property>
+			<property name="path">${source.crm}/(CRM)資料倉儲/佈署/資料倉儲mail/SendCounterBank/src</property>
+			<property name="work">${antspace.crm1}/prod/crmmail/SendCounterBank/src</property>
+		</deploy>
+		<deploy name="SendCounterProposal" type="JavaModule">
+			<property name="head">SendCounterProposal - JavaModule( java )</property>
+			<property name="path">${source.crm}/(CRM)資料倉儲/佈署/資料倉儲mail/SendCounterProposal/src</property>
+			<property name="work">${antspace.crm1}/prod/crmmail/SendCounterProposal/src</property>
+		</deploy>
+	</server>
+	<folder type="prod">
+		<item function="ANT1_1900" />
+		<item function="ANT1_0200" />
+	</folder>
+</Project>

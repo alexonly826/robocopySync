@@ -1,0 +1,64 @@
+<project name="CSR" default="help" basedir=".">
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 主要變數，只要修改這些變數即可											 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<property name="sysName"					value="核心放款系統" />
+
+	<import file="../../csr-globals.xml" />
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 次要變數，沒有必要的話不需修改											 -->
+<!-- 可override antweb-properties.xml 下的變數)								 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+   <property name="BIG5_CONVERSION" value="false" />
+	<property name="fileEncode" value="UTF-8" />
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 匯入公用的變數及巨集程式												 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<import file="../../csr-properties.xml" />
+	<import file="../../csr-macros.xml" />
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 本系統下各個專案的定義                                                  -->
+<!-- 最後需以 <geneClassPath debug="(false|true)" /> 結束                    -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<EARModule name="CXLDS"		ear="CXLDS.ear"
+		build.order="DSWeb"
+		Server="cubxdt01" />
+
+	
+	<WebModule	name="DSWeb"	war="DSWeb.war" >
+		<classpath>
+			<fileset dir="${common.ebafLib}" includes="*.jar" excludes="CommonDS.jar" />
+		</classpath>
+	</WebModule>
+
+	<eBAFConfig name="cxlcs-ds" />
+
+	<geneClassPath verbose="false" />
+
+	<Resource name="JavaBatchScript"                                     
+      prefix="JavaBatchScript"                                         
+      dirname="wasbatch"
+      Server="cubxdt01" />
+  
+	<Resource name="DBBatchScript"                                     
+      prefix="DBBatchScript"                                         
+      dirname="dbbatch"                                              
+      deploy="${output.deploy}/Resource/dbbatch/DBDS"
+      Server="cubxdt01" />
+	  
+	<Resource name="SQL" flatten="true" Server="cubxdt01" />  
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- 匯入所需要的 target，以及加入本專案專有的 target						 -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<import file="../../csr-targets.xml" />
+
+</project>
